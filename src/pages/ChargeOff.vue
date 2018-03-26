@@ -1,17 +1,24 @@
 <template>
   <div>
-    我是首页
+    核销管理
   </div>
 </template>
 
 <script>
+
 export default {
-  props: ['redirect'],
-  name: 'Index',
+  name: 'ChargeOff',
+  data() {
+    return {
+    };
+  },
+  methods: {
+  },
+  components: {
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less">
-
+<style scoped>
 </style>

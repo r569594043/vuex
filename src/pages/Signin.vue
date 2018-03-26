@@ -1,5 +1,5 @@
 <template>
-    <Modal :value="modal" @on-visible-change="onVisibleChange" width="300">
+    <Modal :value="modal" width="300"  @on-cancel="onCancel">
         <p slot="header">
             <Icon type="log-in"></Icon>
             欢迎登录
@@ -30,7 +30,7 @@
 import { mapActions } from 'vuex';
 
 export default {
-    props: ['redirect', 'modal'],
+    props: ['modal'],
     data () {
         return {
             form: {
@@ -44,7 +44,7 @@ export default {
                 password: [
                     { required: true, message: '密码不能为空', trigger: 'blur' }
                 ]
-            }
+            },
         };
     },
     methods: {
@@ -67,10 +67,8 @@ export default {
                 }
             });
         },
-        onVisibleChange(visible) {
-            if(!visible) {
-                this.$emit('on-hide');
-            }
+        onCancel() {
+            this.$emit('on-hide');
         }
     }
 };

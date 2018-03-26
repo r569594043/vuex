@@ -1,23 +1,26 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from '@/pages/Index';
-import test from './test';
+import Index from '@/pages/Index';
 import sign from './sign';
+import project from './project';
+import template from './template';
+import chargeOff from './chargeOff';
 import store from '@/store';
+import * as types from '@/store/mutation-types';
 
 Vue.use(Router);
 
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Home,
-        meta: {
-            requireAuth: true,
-        },
+        name: 'index',
+        component: Index,
+        // props: (route) => ({ redirect: route.query.redirect }),
     },
-    ...test,
     ...sign,
+    ...project,
+    ...template,
+    ...chargeOff,
 ];
 
 const router = new Router({
@@ -25,30 +28,29 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    // if (to.matched.some(r => r.meta.requireAuth)) {
-    if (to.meta.requireAuth) {  // 判断该路由是否需要登录权限
-        if (store.getters['sign/token']) {
-            next();
-        } else {
-            store.dispatch('sign/restoreToken').then(function(token) {
-                if(token) {
-                    next();
-                } else {
-                    next({
-                        path: '/sign/in',
-                        query: {redirect: to.fullPath}
-                    });
-                }
-            }).catch((ex) => {
-                console.error(ex);
+    if(!store.getters['sign/restored']) {
+        store.dispatch('sign/restoreSign').then(function(signed) {
+            // if (to.matched.some(r => r.meta.requireAuth)) {
+            if (to.meta.requireAuth && !store.getters['sign/signed']) {
+                store.commit('sign/' + types.SHOW_SIGN_IN_MODAL);
                 next({
-                    path: '/sign/in',
-                    query: {redirect: to.fullPath}
+                    path: '/',
+                    // query: {redirect: to.fullPath}
                 });
-            });
-        }
+            } else {
+                next();
+            }
+        }).catch((ex) => {});
     } else {
-        next();
+        if (to.meta.requireAuth && !store.getters['sign/signed']) {
+            store.commit('sign/' + types.SHOW_SIGN_IN_MODAL);
+            next({
+                path: '/',
+                // query: {redirect: to.fullPath}
+            });
+        } else {
+            next();
+        }
     }
 });
 

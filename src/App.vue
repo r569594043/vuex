@@ -48,10 +48,13 @@ export default {
     }),
     async signOut() {
       await this.$store.dispatch('sign/signOut');
+      this.$router.push({
+        path: '/'
+      });
     },
     handleNavMenuChange (val) {
         this.activeKey = val;
-    },
+    }
   },
 };
 </script>

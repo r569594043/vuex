@@ -7,13 +7,15 @@ import * as types from '../mutation-types';
 // initial state
 const state = {
   signed: false,
-  showModal: false
+  showModal: false,
+  restored: false,
 };
 
 // getters
 const getters = {
-  'signed': state => state.signed,
-  'showModal': state => state.showModal
+  signed: state => state.signed,
+  restored: state => state.restored,
+  showModal: state => state.showModal
 };
 
 // actions
@@ -46,6 +48,7 @@ const mutations = {
   },
   [types.RESTORE_SIGN](state, { signed }) {
     state.signed = signed;
+    state.restored = true;
   },
   [types.SIGN_OUT](state) {
     state.signed = false;
@@ -55,7 +58,7 @@ const mutations = {
   },
   [types.HIDE_SIGN_IN_MODAL](state) {
     state.showModal = false;
-  },
+  }
 };
 
 export default {

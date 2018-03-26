@@ -5,12 +5,25 @@
                 <span>营销平台</span>
             </router-link>
             <div class="wrapper-header-nav-list">
-                <Menu-item name="projects">
-                    我的项目
-                </Menu-item>
-                <Menu-item name="templates">
-                    模板库
-                </Menu-item>
+                <template v-if="signed">
+                    <Menu-item name="project">
+                        我的项目
+                    </Menu-item>
+                    <Menu-item name="template">
+                        模板库
+                    </Menu-item>
+                    <Menu-item name="charge-off">
+                        核销管理
+                    </Menu-item>
+                </template>
+                <template v-else>
+                    <Menu-item name="index">
+                        首页
+                    </Menu-item>
+                    <Menu-item name="template">
+                        模板库
+                    </Menu-item>
+                </template>
             </div>
             <div class="wrapper-header-settings">
                 <template v-if="signed">
@@ -60,10 +73,14 @@ export default {
     },
     methods: {
         handleSelect (type) {
-            if (type === 'guide') {
+            if (type === 'index') {
                 this.$router.push('/');
-            } else if (type === 'component') {
-                this.$router.push('/');
+            } else if (type === 'project') {
+                this.$router.push('/project');
+            } else if (type === 'template') {
+                this.$router.push('/template');
+            } else if (type === 'charge-off') {
+                this.$router.push('/charge-off');
             } else if (type === 'sign-out') {
                 this.$emit('on-sign-out');
             }
@@ -72,26 +89,28 @@ export default {
             });
         },
         updateActiveNav () {
-            const componentList = [
-                '/docs/guide/install',
-                '/docs/guide/start',
-                '/docs/guide/i18n',
-                '/docs/guide/theme',
-                '/docs/guide/iview-loader',
-                '/overview',
-                '/docs/guide/update'
-            ];
+            // const componentList = [
+            //     '/docs/guide/install',
+            //     '/docs/guide/start',
+            //     '/docs/guide/i18n',
+            //     '/docs/guide/theme',
+            //     '/docs/guide/iview-loader',
+            //     '/overview',
+            //     '/docs/guide/update'
+            // ];
 
             const route = this.$route.path;
-            if (route.indexOf('component') > -1 || componentList.indexOf(route) > -1) {
-                this.currentActiveKey = 'component';
-            } else if (route.indexOf('practice') > -1) {
-                this.currentActiveKey = 'practice';
-            } else if (route.indexOf('live') > -1) {
-                this.currentActiveKey = 'live';
-            } else {
-                this.currentActiveKey = 'guide';
-            }
+            
+            
+            // if (route.indexOf('component') > -1 || componentList.indexOf(route) > -1) {
+            //     this.currentActiveKey = 'component';
+            // } else if (route.indexOf('practice') > -1) {
+            //     this.currentActiveKey = 'practice';
+            // } else if (route.indexOf('live') > -1) {
+            //     this.currentActiveKey = 'live';
+            // } else {
+            //     this.currentActiveKey = 'guide';
+            // }
         },
         handleSignIn () {
             this.$emit('on-sign-in');
