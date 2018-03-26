@@ -1,0 +1,12 @@
+export const ADD_TODO = 'ADD_TODO';
+export const REMOVE_TODO = 'REMOVE_TODO';
+export const UPDATE_TODO = 'UPDATE_TODO';
+export const FETCH_TODOS = 'FETCH_TODOS';
+export const REMOVE_COMPLETED = 'REMOVE_COMPLETED';
+export const CHANGE_ALL_COMPLETED_STATUS = 'CHANGE_ALL_COMPLETED_STATUS';
+
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_OUT = 'SIGN_OUT';
+export const RESTORE_SIGN = 'RESTORE_SIGN';
+export const SHOW_SIGN_IN_MODAL = 'SHOW_SIGN_IN_MODAL';
+export const HIDE_SIGN_IN_MODAL = 'HIDE_SIGN_IN_MODAL';

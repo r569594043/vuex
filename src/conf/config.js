@@ -1,0 +1,1 @@
+export const API_URL = 'http://172.16.21.236/vue-api/';
