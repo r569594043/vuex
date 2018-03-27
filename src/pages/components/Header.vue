@@ -1,5 +1,5 @@
 <template>
-    <Menu mode="horizontal" :active-name="currentActiveKey" @on-select="handleSelect">
+    <Menu mode="horizontal" :active-name="activeMenu" @on-select="handleSelect">
         <div class="wrapper-header-nav">
             <router-link to="/" class="wrapper-header-nav-logo">
                 <span>营销平台</span>
@@ -48,70 +48,69 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
+import * as types from '@/store/mutation-types';
 
 export default {
     props: {
-        activeKey: String
     },
     data () {
         return {
-            currentActiveKey: this.activeKey,
         };
+    },
+    mounted() {
+        var menu = '';
+        switch(this.$route.path) {
+            case '/template':
+                menu = 'template';
+            break;
+            case '/project':
+                menu = 'project';
+            break;
+            case '/charge-off':
+                menu = 'charge-off';
+            break;
+        }
+        this.changeActiveMenu({ menu });
     },
     computed: {
         ...mapGetters('sign', {
-          'signed': 'signed'
-        })
+          'signed': 'signed',
+        }),
+        ...mapGetters('app', [
+          'activeMenu',
+        ]),
     },
     watch: {
-        activeKey (val) {
-            this.currentActiveKey = val;
-        },
-        currentActiveKey (val) {
-            this.$emit('on-change', val);
-        }
     },
     methods: {
+        ...mapMutations('app', {
+          changeActiveMenu: types.ACTIVE_MENU_CHANGE,
+        }),
         handleSelect (type) {
+            let menu = '';
             if (type === 'index') {
                 this.$router.push('/');
             } else if (type === 'project') {
                 this.$router.push('/project');
+                menu = 'project';
             } else if (type === 'template') {
                 this.$router.push('/template');
+                menu = 'template';
             } else if (type === 'charge-off') {
                 this.$router.push('/charge-off');
+                menu = 'charge-off';
             } else if (type === 'sign-out') {
                 this.$emit('on-sign-out');
             }
-            this.$nextTick(() => {
-                this.updateActiveNav();
-            });
+            this.changeActiveMenu({ menu });
+            // this.$nextTick(() => {
+            //     this.updateActiveNav();
+            // });
         },
-        updateActiveNav () {
-            // const componentList = [
-            //     '/docs/guide/install',
-            //     '/docs/guide/start',
-            //     '/docs/guide/i18n',
-            //     '/docs/guide/theme',
-            //     '/docs/guide/iview-loader',
-            //     '/overview',
-            //     '/docs/guide/update'
-            // ];
-
-            const route = this.$route.path;
-            
-            
-            // if (route.indexOf('component') > -1 || componentList.indexOf(route) > -1) {
-            //     this.currentActiveKey = 'component';
-            // } else if (route.indexOf('practice') > -1) {
-            //     this.currentActiveKey = 'practice';
-            // } else if (route.indexOf('live') > -1) {
-            //     this.currentActiveKey = 'live';
-            // } else {
-            //     this.currentActiveKey = 'guide';
-            // }
-        },
+        // updateActiveNav () {
+        //     const route = this.$route.path;
+        //     console.log(route);
+        // },
         handleSignIn () {
             this.$emit('on-sign-in');
         }

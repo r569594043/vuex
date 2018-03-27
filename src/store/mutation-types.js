@@ -10,3 +10,6 @@ export const SIGN_OUT = 'SIGN_OUT';
 export const RESTORE_SIGN = 'RESTORE_SIGN';
 export const SHOW_SIGN_IN_MODAL = 'SHOW_SIGN_IN_MODAL';
 export const HIDE_SIGN_IN_MODAL = 'HIDE_SIGN_IN_MODAL';
+
+
+export const ACTIVE_MENU_CHANGE = 'ACTIVE_MENU_CHANGE';

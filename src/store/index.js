@@ -5,6 +5,7 @@ import * as actions from './actions';
 import * as getters from './getters';
 import todo from './modules/todo';
 import sign from './modules/sign';
+import app from './modules/app';
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ export default new Vuex.Store({
   getters,
   modules: {
     todo,
-    sign
+    sign,
+    app,
   },
   strict: debug,
   plugins: debug ? [createLogger()] : [],

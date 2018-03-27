@@ -2,7 +2,7 @@
   <div id="app">
     <div class="wrapper">
       <div class="wrapper-header">
-        <Header :active-key="activeKey" @on-change="handleNavMenuChange" @on-sign-out="signOut" @on-sign-in="showSignIn"></Header>
+        <Header @on-change="handleNavMenuChange" @on-sign-out="signOut" @on-sign-in="showSignIn"></Header>
       </div>
       <div class="wrapper-container">
         <div class="wrapper-content ivu-article">
@@ -32,14 +32,13 @@ export default {
   },
   data() {
     return {
-      activeKey: 'projects',
-      signIn: false
+      // activeKey: 'projects',
     };
   },
   computed: {
     ...mapGetters('sign', {
       'showSignModal': 'showModal'
-    })
+    }),
   },
   methods: {
     ...mapMutations('sign', {
@@ -53,7 +52,7 @@ export default {
       });
     },
     handleNavMenuChange (val) {
-        this.activeKey = val;
+      this.activeKey = val;
     }
   },
 };
