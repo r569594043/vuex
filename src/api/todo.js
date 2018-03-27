@@ -1,5 +1,5 @@
 import { get, post } from './request';
-import * as apis from '@/conf/apis';
+import * as apis from '@/constants/apis';
 
 export default {
   fetch: () => get(apis.FETCH_TODO),
