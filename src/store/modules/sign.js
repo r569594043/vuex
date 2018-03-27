@@ -1,4 +1,4 @@
-import localForage from 'localforage';
+import Cookies from 'js-cookie';
 import Api from '@/api';
 import * as types from '../mutation-types';
 
@@ -8,13 +8,11 @@ import * as types from '../mutation-types';
 const state = {
   signed: false,
   showModal: false,
-  restored: false,
 };
 
 // getters
 const getters = {
   signed: state => state.signed,
-  restored: state => state.restored,
   showModal: state => state.showModal
 };
 
@@ -22,13 +20,12 @@ const getters = {
 const actions = {
   async signIn({ commit }, { user, password }) {
     let ret = await Api.sign.signIn(user, password);
-    // let signed = ret.signed;
     let signed = true;
-    await localForage.setItem('signed', signed);
+    Cookies.set('signed', 1);
     commit(types.SIGN_IN, { signed });
   },
-  async restoreSign({ commit }) {
-    let signed = await localForage.getItem('signed');
+  restoreSign({ commit }) {
+    let signed = parseInt(Cookies.get('signed'), 10);
     if(signed) {
       commit(types.RESTORE_SIGN, { signed });
     }
@@ -36,7 +33,7 @@ const actions = {
   },
   async signOut({ commit }) {
     let ret = await Api.sign.signOut();
-    await localForage.removeItem('signed');
+    Cookies.remove('signed');
     commit(types.SIGN_OUT);
   }
 };
@@ -48,7 +45,6 @@ const mutations = {
   },
   [types.RESTORE_SIGN](state, { signed }) {
     state.signed = signed;
-    state.restored = true;
   },
   [types.SIGN_OUT](state) {
     state.signed = false;

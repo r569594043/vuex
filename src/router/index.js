@@ -23,34 +23,22 @@ const routes = [
     ...chargeOff,
 ];
 
+store.dispatch('sign/restoreSign');
+
 const router = new Router({
   routes,
 });
 
 router.beforeEach((to, from, next) => {
-    if(!store.getters['sign/restored']) {
-        store.dispatch('sign/restoreSign').then(function(signed) {
-            // if (to.matched.some(r => r.meta.requireAuth)) {
-            if (to.meta.requireAuth && !store.getters['sign/signed']) {
-                store.commit('sign/' + types.SHOW_SIGN_IN_MODAL);
-                next({
-                    path: '/',
-                    // query: {redirect: to.fullPath}
-                });
-            } else {
-                next();
-            }
-        }).catch((ex) => {});
+    // if (to.matched.some(r => r.meta.requireAuth)) {
+    if (to.meta.requireAuth && !store.getters['sign/signed']) {
+        store.commit('sign/' + types.SHOW_SIGN_IN_MODAL);
+        next({
+            path: '/',
+            // query: {redirect: to.fullPath}
+        });
     } else {
-        if (to.meta.requireAuth && !store.getters['sign/signed']) {
-            store.commit('sign/' + types.SHOW_SIGN_IN_MODAL);
-            next({
-                path: '/',
-                // query: {redirect: to.fullPath}
-            });
-        } else {
-            next();
-        }
+        next();
     }
 });
 
