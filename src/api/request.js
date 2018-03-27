@@ -1,6 +1,6 @@
 import axios from 'axios';
 import qs from 'qs';
-import { API_URL } from 'config';
+import { API_BASE_URL } from 'config';
 
 axios.interceptors.request.use((config) => {
   config.headers['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -15,7 +15,7 @@ axios.interceptors.request.use((config) => {
 
 function baseRequest(url, params, method = 'get') {
   return new Promise((resolve, reject) => {
-    axios[method](`${API_URL}${url}`, params).then((response) => {
+    axios[method](`${API_BASE_URL}${url}`, params).then((response) => {
       const json = response.data;
       if (parseInt(json.code, 10) === 0) {
         resolve(json.data);

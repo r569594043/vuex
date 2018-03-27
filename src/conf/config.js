@@ -1,1 +1,1 @@
-export const API_URL = 'http://127.0.0.1/vue-test-api/';
+export const API_BASE_URL = 'http://127.0.0.1/vue-test-api/';
